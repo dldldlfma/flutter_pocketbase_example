@@ -121,12 +121,18 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class PocketBasePage extends StatelessWidget {
+class PocketBasePage extends StatefulWidget {
+  @override
+  State<PocketBasePage> createState() => _PocketBasePageState();
+}
+
+class _PocketBasePageState extends State<PocketBasePage> {
   @override
   Widget build(BuildContext context) {
-    var cnt = 0;
+    var state = "";
     var appState = context.watch<MyAppState>();
     var name = appState.current;
+
     final body = <String, dynamic>{
       "username": "$name",
       "email": "$name@example.com",
@@ -139,29 +145,57 @@ class PocketBasePage extends StatelessWidget {
     IconData icon = Icons.create;
 
 
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+return Center(
+  child: Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      BigCard(pair: name),
+      SizedBox(height: 10),
+      Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          BigCard(pair: name),
-          SizedBox(height: 10),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ElevatedButton.icon(
-                onPressed: () async {
-                  final record = await pb.collection('users').create(body: body);
-                  // (optional) send an email verification request
-                  await pb.collection('users').requestVerification('$name@example.com');;
-                },
-                icon: Icon(icon),
-                label: Text('Create_User'),
-              ),
-            ],
+          Text(state),
+          ElevatedButton.icon(
+            onPressed: () async {
+              try {
+                final record = await pb.collection('users').create(body: body);
+                setState(() {
+                  state = "$name@example.com Created";
+                });
+              } catch (e) {
+                print(e);
+                setState(() {
+                  state = "$name@example.com Already Exist";
+                });
+              } finally {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("Result"),
+                      content: Text(state),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text('확인'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              }
+            },
+            icon: Icon(icon),
+            label: Text('Create_User'),
           ),
         ],
       ),
-    );
+    ],
+  ),
+);
+
   }
 }
 

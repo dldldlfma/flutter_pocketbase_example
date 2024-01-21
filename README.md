@@ -1,16 +1,14 @@
-# test_drive
+# PocketBase Test Example using Flutter
 
-A new Flutter project.
+A Flutter project for testing PocketBase API.
 
-## Getting Started
+## Run
 
-This project is a starting point for a Flutter application.
+Press F5 in VSCode with Flutter Extension Package.
 
-A few resources to get you started if this is your first Flutter project:
+## Reference
 
 - [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
 - [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- [online documentation](https://docs.flutter.dev/), which offers tutorials,
+- [PocketBase](https://pocketbase.io)
